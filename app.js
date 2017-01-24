@@ -2,7 +2,7 @@ const Card = (options) => {
   return `
   <div class="card">
     <div class="card__header" style="background-image: url(${options.image})">
-      <div class="profile_picture"></div>
+      <div class="profile_picture" style="background-image: url(${options.logo})"></div>
     </div>
     <div class="card__body">
       <div class="card__info">
@@ -29,92 +29,39 @@ const applyParallax = (element) => {
     .style.backgroundPosition = `${position}% center`;
 }
 
-const cards = [
-  Card({
-    image: './img/seattle.png',
-    name: 'Nike Running',
-    projects: '14 PROJECTS',
-    logo: '',
-    users: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3,4,5]
-  }),
-  Card({
-    image: './img/anduin.png',
-    name: 'Relate UI Kit',
-    projects: '7 PROJECTS',
-    logo: '',
-    users: ['./img/userD.png', './img/userE.png',  './img/userF.jpg', 4,5,6,7,8]
-  }),
-  Card({
-    image: './img/route-66.png',
-    name: 'InVision Craft',
-    projects: '3 PROJECTS',
-    logo: '',
-    users: ['./img/userA.jpg', './img/userB.jpg']
-  }),
-  Card({
-    image: './img/sunset.png',
-    name: 'Serum Design',
-    projects: '18 PROJECTS',
-    logo: '',
-    users: ['./img/userC.png', './img/userD.png', './img/userE.png', 4,5,6,7,8,9,10,11,12]
-  }),
-  Card({
-    image: './img/seattle.png',
-    name: 'Nike Running',
-    projects: '14 PROJECTS',
-    logo: '',
-    users: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3,4,5]
-  }),
-  Card({
-    image: './img/anduin.png',
-    name: 'Relate UI Kit',
-    projects: '7 PROJECTS',
-    logo: '',
-    users: ['./img/userD.png', './img/userE.png',  './img/userF.jpg', 4,5,6,7,8]
-  }),
-  Card({
-    image: './img/route-66.png',
-    name: 'InVision Craft',
-    projects: '3 PROJECTS',
-    logo: '',
-    users: ['./img/userA.jpg', './img/userB.jpg']
-  }),
-  Card({
-    image: './img/sunset.png',
-    name: 'Serum Design',
-    projects: '18 PROJECTS',
-    logo: '',
-    users: ['./img/userC.png', './img/userD.png', './img/userE.png', 4,5,6,7,8,9,10,11,12]
-  }),
-  Card({
-    image: './img/seattle.png',
-    name: 'Nike Running',
-    projects: '14 PROJECTS',
-    logo: '',
-    users: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3,4,5]
-  }),
-  Card({
-    image: './img/anduin.png',
-    name: 'Relate UI Kit',
-    projects: '7 PROJECTS',
-    logo: '',
-    users: ['./img/userD.png', './img/userE.png',  './img/userF.jpg', 4,5,6,7,8]
-  }),
-  Card({
-    image: './img/route-66.png',
-    name: 'InVision Craft',
-    projects: '3 PROJECTS',
-    logo: '',
-    users: ['./img/userA.jpg', './img/userB.jpg']
-  }),
-  Card({
-    image: './img/sunset.png',
-    name: 'Serum Design',
-    projects: '18 PROJECTS',
-    logo: '',
-    users: ['./img/userC.png', './img/userD.png', './img/userE.png', 4,5,6,7,8,9,10,11,12]
-  })
-];
+let cards = [1,2,3].reduce(acc => {
+  acc = acc.concat([
+    Card({
+      image: './img/seattle.png',
+      name: 'Nike Running',
+      projects: '14 PROJECTS',
+      logo: './img/seattle.png',
+      users: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3,4,5]
+    }),
+    Card({
+      image: './img/anduin.png',
+      name: 'Relate UI Kit',
+      projects: '7 PROJECTS',
+      logo: './img/anduin.png',
+      users: ['./img/userD.png', './img/userE.png',  './img/userF.jpg', 4,5,6,7,8]
+    }),
+    Card({
+      image: './img/route-66.png',
+      name: 'InVision Craft',
+      projects: '3 PROJECTS',
+      logo: './img/route-66.png',
+      users: ['./img/userA.jpg', './img/userB.jpg']
+    }),
+    Card({
+      image: './img/sunset.png',
+      name: 'Serum Design',
+      projects: '18 PROJECTS',
+      logo: './img/sunset.png',
+      users: ['./img/userC.png', './img/userD.png', './img/userE.png', 4,5,6,7,8,9,10,11,12]
+    })
+  ]);
+  return acc;
+}, [])
 
 const cardsDOM = document.querySelector('.cards');
 cardsDOM.innerHTML = cards.join('');
