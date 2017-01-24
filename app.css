@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  min-height: 100vh;
+  font: 300 1em/1em Arial, sans-serif;
+  color: rgba(0,0,0, .64);
+}
+
+.cards {
+  display: flex;
+  overflow-x: auto;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: 262px;
+  height: 352px;
+  margin-top: 50vh;
+  margin-left: 5vw;
+  transform: translate(0%, -50%);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px 4px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.01);
+}
+.card:first-child {
+  margin-left: calc((100% - 262px)/2);
+}
+.card__header {
+  position: relative;
+  height: 71%;
+  background-color: #e8e8e8;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.profile_picture {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 9px;
+  background: #FFF;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05), 0px 0px 9px 2px rgba(0, 0, 0, 0.08)
+}
+.card__body {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  background-color: #FFF;
+  padding: 34px 28px;
+}
+.card__info {
+  display: flex;
+  flex-direction: column;
+  font-size: .9em;
+}
+.card__info-name {
+  margin-bottom: auto;
+}
+.card__info-projects {
+  font-size: .6em;
+  font-weight: bold;
+  color: rgba(0,0,0, .3);
+  letter-spacing: .1em;
+}
+.card__users {
+  display: flex;
+}
+.card__user {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e2e2e2;
+  border: 3px solid #FFF;
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.card__user:nth-child(1) {
+  z-index: 3;
+  transform: translate(76%, 0);
+}
+.card__user:nth-child(2) {
+  z-index: 2;
+  transform: translate(38%, 0);
+}
+.card__user:nth-child(3) {
+  z-index: 1;
+}
+.card__user:last-child:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, .4);
+}
+.card__user:last-child:after {
+  content: attr(more-users);
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  font-size: .6em;
+  color: #FFF;
+}
