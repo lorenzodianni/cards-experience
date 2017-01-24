@@ -2,7 +2,7 @@ const Card = (options) => {
   return `
   <div class="card">
     <div class="card__header" style="background-image: url(${options.image})">
-      <div class="profile_picture" style="background-image: url(${options.logo})"></div>
+      <div class="profile__picture" style="background-image: url(${options.logo})"></div>
     </div>
     <div class="card__body">
       <div class="card__info">
@@ -22,7 +22,8 @@ const Card = (options) => {
   `
 }
 
-const applyParallax = (element) => {
+const forEach = (array, fn) => Array.from(array).forEach(fn);
+const applyParallax = (element, i) => {
   let {left, width} = element.getBoundingClientRect();
   let position = 100 / (document.body.clientWidth / (left + (width/2)));
   element.querySelector('.card__header')
@@ -65,6 +66,26 @@ let cards = [1,2,3].reduce(acc => {
 
 const cardsDOM = document.querySelector('.cards');
 cardsDOM.innerHTML = cards.join('');
+document.addEventListener('DOMContentLoaded', () => {
+  forEach(cardsDOM.children, applyParallax);
+})
 cardsDOM.addEventListener('scroll', e => {
-  Array.from(e.target.children).forEach(applyParallax);
+  forEach(e.target.children, applyParallax);
 });
+
+forEach(cardsDOM.children, (card) => {
+  card.addEventListener('click', function() {
+    let profilePicture = this.querySelector('.profile__picture');
+    let cardHeader = this.querySelector('.card__header');
+
+    let _pClone = profilePicture.cloneNode(true);
+    _pClone.style.top = `${profilePicture.getBoundingClientRect().top}px`;
+    _pClone.style.left = `${profilePicture.getBoundingClientRect().left}px`;
+    _pClone.style.transform = `none`;
+    document.body.appendChild(_pClone);
+    console.log(profilePicture.getBoundingClientRect());
+    console.log(cardHeader.getBoundingClientRect());
+    console.dir(this)
+  });
+})
+
