@@ -98,9 +98,10 @@ class Card {
 const forEach = (array, fn) => Array.from(array).forEach(fn);
 const bindParallax = (nodeChildren) => forEach(nodeChildren, card => card.applyParallax());
 
-let cards = [1, 2, 3].reduce(acc => {
+let cards = [1, 2, 3].reduce((acc, i) => {
   acc = acc.concat([
     Card.create({
+      id: '1'+i,
       image: './img/route-66.png',
       title: 'InVision Craft',
       subtitle: '3 PROJECTS',
@@ -108,6 +109,7 @@ let cards = [1, 2, 3].reduce(acc => {
       specials: ['./img/userA.jpg', './img/userB.jpg']
     }),
     Card.create({
+      id: '2'+i,
       image: './img/seattle.png',
       title: 'Nike Running',
       subtitle: '14 PROJECTS',
@@ -115,6 +117,7 @@ let cards = [1, 2, 3].reduce(acc => {
       specials: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3, 4, 5]
     }),
     Card.create({
+      id: '3'+i,
       image: './img/anduin.png',
       title: 'Relate UI Kit',
       subtitle: '7 PROJECTS',
@@ -122,6 +125,7 @@ let cards = [1, 2, 3].reduce(acc => {
       specials: ['./img/userD.png', './img/userE.png', './img/userF.jpg', 4, 5, 6, 7, 8]
     }),
     Card.create({
+      id: '4'+i,
       image: './img/sunset.png',
       title: 'Serum Design',
       subtitle: '18 PROJECTS',
