@@ -1,10 +1,10 @@
 const ProfilePicture = (imageUrl) => {
-  return `<div class="profile-picture" style="background-image: url(${imageUrl})"></div>`
-}
+  return `<div class="profile-picture" style="background-image: url(${imageUrl})"></div>`;
+};
 
 const BannerImage = (imageUrl, {child}) => {
-  return `<div class="banner-image" style="background-image: url(${imageUrl})">${child}</div>`
-}
+  return `<div class="banner-image" style="background-image: url(${imageUrl})">${child}</div>`;
+};
 
 class ViewCard {
   static create(options) {
@@ -25,14 +25,17 @@ class ViewCard {
         ${Card.create({image: options.image, title: 'Project X', subtitle: '32 screens'}).outerHTML}
       </div>
     </div>
-    `
+    `;
     let _el = wrapper.children[0];
-    _el.querySelector('.view-card__close').addEventListener('click', ViewCard.close.bind(_el));
+    _el.connectedCard = options.connectedCard;
     return _el;
   }
 
-  static close() {
-    this.remove();
+  static close(viewCard, callback) {
+    viewCard.remove();
+    if(typeof callback === 'function') {
+      callback(viewCard.connectedCard);
+    }
   }
 }
 
@@ -53,17 +56,16 @@ class Card {
         <div class="card__specials">
           ${options.specials ? options.specials.map((specialImg, i) => {
             if (i <= 2) {
-              let attr = i === 2 ? `more-specials="+${options.specials.length - (i + 1)}"` : ''
+              let attr = i === 2 ? `more-specials="+${options.specials.length - (i + 1)}"` : '';
               return `<div class="card__special" style="background-image: url(${specialImg})" ${attr}></div>`;
             }
           }).join('') : ''}
         </div>
       </div>
     </div>
-    `
+    `;
     let _el = wrapper.children[0];
     _el.card = Object.assign({}, options);
-    _el.applyParallax = Card.applyParallax.bind(null, _el, '.banner-image');
     return _el;
   }
 
@@ -74,29 +76,36 @@ class Card {
       .style.backgroundPosition = `${position}% center`;
   }
 
-  static clone(element, className) {
+  static clone(element, {addClass}) {
     let _elClientRect = element.getBoundingClientRect();
     let _elClone = element.cloneNode(true);
     _elClone.card = Object.assign({}, element.card);
 
-    className ? _elClone.classList.add(className) : null;
+    addClass ? _elClone.classList.add(addClass) : null;
     _elClone.style.top = `${_elClientRect.top}px`;
     _elClone.style.left = `${_elClientRect.left}px`;
     _elClone.style.height = `${_elClientRect.height}px`;
     _elClone.style.width = `${_elClientRect.width}px`;
-    return _elClone
+    return _elClone;
   }
 
-  static bindTransition(card, callbackTransitionEnd) {
-    let _clone = Card.clone(card, 'card--clone');
+  static startAnimation(card, onTransitionEnd) {
+    let _clone = Card.clone(card, {addClass: 'card--clone'});
+    _clone.reverseAnimation = Card.reverseAnimation.bind(null, _clone);
+    if(typeof onTransitionEnd === 'function') {
+      _clone.addEventListener('transitionend', onTransitionEnd);
+    }
     document.body.appendChild(_clone);
-    _clone.addEventListener('transitionend', callbackTransitionEnd);
-    setTimeout(() => _clone.classList.add('card--clone__moving'), 50);
+    setTimeout(() => _clone.classList.add('card--animating'), 50);
+  }
+
+  static reverseAnimation(card, onTransitionEnd) {
+    card.classList.remove('card--animating');
+    if(typeof onTransitionEnd === 'function') {
+      card.addEventListener('transitionend', onTransitionEnd);
+    }
   }
 }
-
-const forEach = (array, fn) => Array.from(array).forEach(fn);
-const bindParallax = (nodeChildren) => forEach(nodeChildren, card => card.applyParallax());
 
 let cards = [1, 2, 3].reduce((acc, i) => {
   acc = acc.concat([
@@ -136,20 +145,26 @@ let cards = [1, 2, 3].reduce((acc, i) => {
   return acc;
 }, []);
 
+const forEach = (array, fn) => Array.from(array).forEach(fn);
+const bindParallax = (list) => forEach(list, card => Card.applyParallax(card, '.banner-image'));
 const cardsDOM = document.querySelector('.cards');
-forEach(cards, (card) => cardsDOM.appendChild(card));
-const cardsItems = cardsDOM.children;
-document.addEventListener('DOMContentLoaded', bindParallax.bind(null, cardsItems));
-cardsDOM.addEventListener('scroll', bindParallax.bind(null, cardsItems));
 
-forEach(cardsItems, card => {
-  card.addEventListener('click', () => Card.bindTransition(card, onTransitionEnd(0)));
+forEach(cards, (card) => {
+  cardsDOM.appendChild(card);
+  card.addEventListener('click', () => Card.startAnimation(card, onCardAnimationEnd(0)));
 });
+document.addEventListener('DOMContentLoaded', () => bindParallax(cardsDOM.children));
+cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
 
-const onTransitionEnd = (counter) => (e) => {
+const onCardAnimationEnd = (counter) => (e) => {
   if (counter) return;
   ++counter;
-  e.target.remove();
-  document.body.appendChild(ViewCard.create(Object.assign({}, e.target.card)));
-}
+  let options = Object.assign({connectedCard: e.target}, e.target.card);
+  let viewCard = ViewCard.create(options);
+  document.body.appendChild(viewCard);
+  document.querySelector('.view-card__close')
+    .addEventListener('click', () => ViewCard.close(viewCard, (connectedCard) => {
+      connectedCard.reverseAnimation(connectedCard.remove.bind(connectedCard));
+    }));
+};
 
