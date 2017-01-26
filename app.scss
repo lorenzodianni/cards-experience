@@ -62,11 +62,13 @@ $card__special--size: 32px;
 
 @keyframes view-card__card--in {
   0% {transform: translate(100%, 38%);}
+  80% {opacity: 1}
   100% {transform: translate(-50%, 38%);}
 }
 @keyframes view-card__card--out {
   0% {transform: translate(-50%, 38%);}
-  100% {transform: translate(100%, 38%);}
+  0%, 20% {opacity: 1}
+  100% {transform: translate(100%, 38%); opacity: 0}
 }
 
 * {

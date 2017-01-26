@@ -16,7 +16,7 @@ class ViewCard {
     wrapper.innerHTML = `
     <div class="view-card">
       ${BannerImage(options.image, {
-        child: `
+      child: `
           ${ProfilePicture(options.logo)}
           <div class="view-card__close"></div>
           <div class="view-card__presentation">
@@ -24,9 +24,13 @@ class ViewCard {
           <div class="view-card__subtitle">${options.subtitle}</div>
           </div>
         `
-      })}
+    })}
       <div class="view-card__body">
-        ${Card.create({image: options.image, title: 'Project X', subtitle: '32 screens'}).outerHTML}
+        ${Card.create({
+      image: options.image,
+      title: 'Project X',
+      subtitle: '32 screens'
+    }).outerHTML}
       </div>
     </div>
     `;
@@ -47,8 +51,8 @@ class Card {
     wrapper.innerHTML = `
     <div class="card">
       ${BannerImage(options.image, {
-        child: options.logo ? ProfilePicture(options.logo) : ''
-      })}
+      child: options.logo ? ProfilePicture(options.logo) : ''
+    })}
       <div class="card__body">
         <div class="card__info">
           <span class="card__info-title">${options.title}</span>
@@ -56,11 +60,11 @@ class Card {
         </div>
         <div class="card__specials">
           ${options.specials ? options.specials.map((specialImg, i) => {
-            if (i <= 2) {
-              let attr = i === 2 ? `more-specials="+${options.specials.length - (i + 1)}"` : '';
-              return `<div class="card__special" style="background-image: url(${specialImg})" ${attr}></div>`;
-            }
-          }).join('') : ''}
+        if (i <= 2) {
+          let attr = i === 2 ? `more-specials="+${options.specials.length - (i + 1)}"` : '';
+          return `<div class="card__special" style="background-image: url(${specialImg})" ${attr}></div>`;
+        }
+      }).join('') : ''}
         </div>
       </div>
     </div>
@@ -123,8 +127,9 @@ const renderViewCard = (connectedCard) => {
 };
 
 const removeViewCard = (viewCard) => {
+  let {connectedCard} = viewCard;
   viewCard.remove();
-  viewCard.connectedCard.reverseAnimation(() => viewCard.connectedCard.remove());
+  connectedCard.reverseAnimation(() => connectedCard.remove());
 };
 
 const render = () => {
