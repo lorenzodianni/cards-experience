@@ -22,7 +22,7 @@
   top: 50%;
   left: 50%;
   background-color: white;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 %coordinates--card-full-screen {
@@ -34,6 +34,7 @@
 
 $view-card__close--size: 40%;
 $view-card__close--thickness: 2px;
+$view-card--animation-timing: .5s;
 $card--expanded--banner-image--height: 48%;
 $card--expanded--profile-picture--top: 28%;
 $card--width: 262px;
@@ -45,10 +46,27 @@ $card__special--size: 32px;
   0% {transform: translate(-50%, 0); opacity: 0;}
   100% {transform: translate(-50%, -50%); opacity: 1;}
 }
+@keyframes view-card__presentation--out {
+  0% {transform: translate(-50%, -50%); opacity: 1;}
+  100% {transform: translate(-50%, 0); opacity: 0;}
+}
+
+@keyframes view-card__close--in {
+  0% {transform: translate(0, -100%);}
+  100% {transform: translate(0, 0%);}
+}
+@keyframes view-card__close--out {
+  0% {transform: translate(0, 0%);}
+  100% {transform: translate(0, -100%);}
+}
 
 @keyframes view-card__card--in {
   0% {transform: translate(100%, 38%);}
   100% {transform: translate(-50%, 38%);}
+}
+@keyframes view-card__card--out {
+  0% {transform: translate(-50%, 38%);}
+  100% {transform: translate(100%, 38%);}
 }
 
 * {
@@ -269,7 +287,7 @@ body {
     color: white;
     text-align: center;
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.08), 0 0 26px rgba(0, 0, 0, 0.08);
-    animation: view-card__presentation--in .3s ease 1;
+    animation: view-card__presentation--in $view-card--animation-timing ease 1;
   }
   &__title {
     font-size: 1.2em;
@@ -286,8 +304,8 @@ body {
     border-radius: 50%;
     width: 56px;
     height: 56px;
-    transform: rotate(45deg);
     opacity: .7;
+    animation: view-card__close--in $view-card--animation-timing ease 1;
     &:before {
       @extend %view-card--pseudo-close;
       width: $view-card__close--thickness;
@@ -314,12 +332,26 @@ body {
     top: 10%;
     left: 50%;
     transform: translate(-50%, 38%);
-    animation: view-card__card--in .5s ease 1;
+    animation: view-card__card--in $view-card--animation-timing ease 1;
     box-shadow: 0 10px 20px 4px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.02);
     .banner-image {
       height: 90%;
       background-size: 10000%;
       background-position: center top;
     }
+  }
+}
+
+.view-card--out {
+  .view-card {
+    &__close {
+      animation: view-card__close--out ($view-card--animation-timing - .2s) ease 1;
+    }
+    &__presentation {
+      animation: view-card__presentation--out ($view-card--animation-timing - .2s) ease 1;
+    }
+  }
+  .card {
+    animation: view-card__card--out ($view-card--animation-timing - .2s) ease 1;
   }
 }

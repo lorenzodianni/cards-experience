@@ -18,7 +18,7 @@
   top: 50%;
   left: 50%;
   background-color: white;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%) rotate(45deg); }
 
 .card.card--animating, .view-card {
   top: 0 !important;
@@ -33,11 +33,33 @@
   100% {
     transform: translate(-50%, -50%);
     opacity: 1; } }
+@keyframes view-card__presentation--out {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 1; }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 0; } }
+@keyframes view-card__close--in {
+  0% {
+    transform: translate(0, -100%); }
+  100% {
+    transform: translate(0, 0%); } }
+@keyframes view-card__close--out {
+  0% {
+    transform: translate(0, 0%); }
+  100% {
+    transform: translate(0, -100%); } }
 @keyframes view-card__card--in {
   0% {
     transform: translate(100%, 38%); }
   100% {
     transform: translate(-50%, 38%); } }
+@keyframes view-card__card--out {
+  0% {
+    transform: translate(-50%, 38%); }
+  100% {
+    transform: translate(100%, 38%); } }
 * {
   margin: 0;
   padding: 0;
@@ -175,7 +197,7 @@ body {
     color: white;
     text-align: center;
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.08), 0 0 26px rgba(0, 0, 0, 0.08);
-    animation: view-card__presentation--in .3s ease 1; }
+    animation: view-card__presentation--in 0.5s ease 1; }
   .view-card__title {
     font-size: 1.2em; }
   .view-card__subtitle {
@@ -189,8 +211,8 @@ body {
     border-radius: 50%;
     width: 56px;
     height: 56px;
-    transform: rotate(45deg);
-    opacity: .7; }
+    opacity: .7;
+    animation: view-card__close--in 0.5s ease 1; }
     .view-card__close:before {
       width: 2px;
       height: 40%; }
@@ -209,11 +231,18 @@ body {
     top: 10%;
     left: 50%;
     transform: translate(-50%, 38%);
-    animation: view-card__card--in .5s ease 1;
+    animation: view-card__card--in 0.5s ease 1;
     box-shadow: 0 10px 20px 4px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.02); }
     .view-card .card .banner-image {
       height: 90%;
       background-size: 10000%;
       background-position: center top; }
+
+.view-card--out .view-card__close {
+  animation: view-card__close--out 0.3s ease 1; }
+.view-card--out .view-card__presentation {
+  animation: view-card__presentation--out 0.3s ease 1; }
+.view-card--out .card {
+  animation: view-card__card--out 0.3s ease 1; }
 
 /*# sourceMappingURL=app.css.map */

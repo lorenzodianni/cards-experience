@@ -1,13 +1,14 @@
 const forEach = (array, fn) => Array.from(array).forEach(fn);
 const isFunction = (value) => typeof value === 'function';
+const bindParallax = (list) => forEach(list, card => Card.applyParallax(card, '.banner-image'));
 
-const ProfilePicture = (imageUrl) => {
-  return `<div class="profile-picture" style="background-image: url(${imageUrl})"></div>`;
-};
+const ProfilePicture = (imageUrl) => (
+  `<div class="profile-picture" style="background-image: url(${imageUrl})"></div>`
+);
 
-const BannerImage = (imageUrl, {child}) => {
-  return `<div class="banner-image" style="background-image: url(${imageUrl})">${child}</div>`;
-};
+const BannerImage = (imageUrl, {child}) => (
+  `<div class="banner-image" style="background-image: url(${imageUrl})">${child}</div>`
+);
 
 class ViewCard {
   static create(options) {
@@ -35,11 +36,10 @@ class ViewCard {
   }
 
   static close(viewCard, callback) {
-    viewCard.remove();
-    isFunction(callback) ? callback(viewCard.connectedCard) : null;
+    viewCard.classList.add('view-card--out');
+    isFunction(callback) ? viewCard.addEventListener('animationend', callback.bind(null, viewCard)) : null;
   }
 }
-
 
 class Card {
   static create(options) {
@@ -102,54 +102,16 @@ class Card {
   }
 }
 
-let cards = [1, 2, 3].reduce((acc, i) => {
-  acc = acc.concat([
-    Card.create({
-      image: './img/route-66.png',
-      title: 'InVision Craft',
-      subtitle: '3 PROJECTS',
-      logo: './img/route-66.png',
-      specials: ['./img/userA.jpg', './img/userB.jpg']
-    }),
-    Card.create({
-      image: './img/seattle.png',
-      title: 'Nike Running',
-      subtitle: '14 PROJECTS',
-      logo: './img/seattle.png',
-      specials: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3, 4, 5]
-    }),
-    Card.create({
-      image: './img/anduin.png',
-      title: 'Relate UI Kit',
-      subtitle: '7 PROJECTS',
-      logo: './img/anduin.png',
-      specials: ['./img/userD.png', './img/userE.png', './img/userF.jpg', 4, 5, 6, 7, 8]
-    }),
-    Card.create({
-      image: './img/sunset.png',
-      title: 'Serum Design',
-      subtitle: '18 PROJECTS',
-      logo: './img/sunset.png',
-      specials: ['./img/userC.png', './img/userD.png', './img/userE.png', 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    })
-  ]);
-  return acc;
-}, []);
-
-const bindParallax = (list) => forEach(list, card => Card.applyParallax(card, '.banner-image'));
-const cardsDOM = document.querySelector('.cards');
-
-forEach(cards, (card) => {
-  cardsDOM.appendChild(card);
-  card.addEventListener('click', () => Card.startAnimation(card, onCardAnimationEnd(0)));
-});
-document.addEventListener('DOMContentLoaded', () => bindParallax(cardsDOM.children));
-cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
-
-const onCardAnimationEnd = (counter) => (e) => {
+const onCardTransitionEnd = (counter) => (e) => {
   if (counter) return;
   ++counter;
   renderViewCard(e.target);
+};
+
+const onCardViewAnimationOutEnd = (counter) => (viewCard) => {
+  if (counter) return;
+  ++counter;
+  removeViewCard(viewCard);
 };
 
 const renderViewCard = (connectedCard) => {
@@ -157,8 +119,55 @@ const renderViewCard = (connectedCard) => {
   let viewCard = ViewCard.create(options);
   document.body.appendChild(viewCard);
   document.querySelector('.view-card__close')
-    .addEventListener('click', () => ViewCard.close(viewCard, (card) => {
-      card.reverseAnimation(() => card.remove());
-    }));
+    .addEventListener('click', () => ViewCard.close(viewCard, onCardViewAnimationOutEnd(0)));
 };
 
+const removeViewCard = (viewCard) => {
+  viewCard.remove();
+  viewCard.connectedCard.reverseAnimation(() => viewCard.connectedCard.remove());
+};
+
+const init = () => {
+  const cardsDOM = document.querySelector('.cards');
+  const cards = [1, 2, 3].reduce((acc) => {
+    acc = acc.concat([
+      Card.create({
+        image: './img/route-66.png',
+        title: 'InVision Craft',
+        subtitle: '3 PROJECTS',
+        logo: './img/route-66.png',
+        specials: ['./img/userA.jpg', './img/userB.jpg']
+      }),
+      Card.create({
+        image: './img/seattle.png',
+        title: 'Nike Running',
+        subtitle: '14 PROJECTS',
+        logo: './img/seattle.png',
+        specials: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3, 4, 5]
+      }),
+      Card.create({
+        image: './img/anduin.png',
+        title: 'Relate UI Kit',
+        subtitle: '7 PROJECTS',
+        logo: './img/anduin.png',
+        specials: ['./img/userD.png', './img/userE.png', './img/userF.jpg', 4, 5, 6, 7, 8]
+      }),
+      Card.create({
+        image: './img/sunset.png',
+        title: 'Serum Design',
+        subtitle: '18 PROJECTS',
+        logo: './img/sunset.png',
+        specials: ['./img/userC.png', './img/userD.png', './img/userE.png', 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      })
+    ]);
+    return acc;
+  }, []);
+  forEach(cards, (card) => {
+    cardsDOM.appendChild(card);
+    card.addEventListener('click', () => Card.startAnimation(card, onCardTransitionEnd(0)));
+  });
+  document.addEventListener('DOMContentLoaded', () => bindParallax(cardsDOM.children));
+  cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
+};
+
+init();
