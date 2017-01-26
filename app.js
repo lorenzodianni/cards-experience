@@ -91,7 +91,7 @@ class Card {
   static startAnimation(card, onTransitionEnd) {
     let _clone = Card.clone(card, {addClass: 'card--clone'});
     _clone.reverseAnimation = Card.reverseAnimation.bind(null, _clone);
-    isFunction(onTransitionEnd) ?_clone.addEventListener('transitionend', onTransitionEnd) : null;
+    isFunction(onTransitionEnd) ? _clone.addEventListener('transitionend', onTransitionEnd) : null;
     document.body.appendChild(_clone);
     setTimeout(() => _clone.classList.add('card--animating'), 50);
   }
@@ -149,12 +149,16 @@ cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
 const onCardAnimationEnd = (counter) => (e) => {
   if (counter) return;
   ++counter;
-  let options = Object.assign({connectedCard: e.target}, e.target.card);
+  renderViewCard(e.target);
+};
+
+const renderViewCard = (connectedCard) => {
+  let options = Object.assign({connectedCard}, connectedCard.card);
   let viewCard = ViewCard.create(options);
   document.body.appendChild(viewCard);
   document.querySelector('.view-card__close')
-    .addEventListener('click', () => ViewCard.close(viewCard, (connectedCard) => {
-      connectedCard.reverseAnimation(connectedCard.remove.bind(connectedCard));
+    .addEventListener('click', () => ViewCard.close(viewCard, (card) => {
+      card.reverseAnimation(() => card.remove());
     }));
 };
 
