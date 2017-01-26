@@ -1,4 +1,4 @@
-.card.card--clone, .card.card--clone .banner-image, .card.card--clone .profile-picture, .card.card--animating .card__info, .card.card--animating .card__specials {
+.card.card--clone, .card.card--clone .banner-image, .card.card--clone .profile-picture, .card.card--clone .card__info, .card.card--clone .card__specials {
   transition: all .4s ease; }
 
 .card.card--clone, .view-card {
@@ -52,9 +52,9 @@
     transform: translate(0, -100%); } }
 @keyframes view-card__card--in {
   0% {
-    transform: translate(100%, 38%); }
+    left: 100%; }
   100% {
-    transform: translate(-50%, 38%); } }
+    left: 50%; } }
 @keyframes view-card__card--out {
   0% {
     transform: translate(-50%, 38%); }

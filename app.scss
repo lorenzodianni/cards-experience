@@ -236,6 +236,12 @@ body {
   .profile-picture {
     @extend %animation-transition;
   }
+  .card__info {
+    @extend %animation-transition;
+  }
+  .card__specials {
+    @extend %animation-transition;
+  }
 }
 
 
@@ -256,11 +262,9 @@ body {
     top: $card--expanded--profile-picture--top;
   }
   .card__info {
-    @extend %animation-transition;
     @extend %opacity--zero;
   }
   .card__specials {
-    @extend %animation-transition;
     @extend %opacity--zero;
   }
 }
