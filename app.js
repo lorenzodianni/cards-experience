@@ -127,7 +127,7 @@ const removeViewCard = (viewCard) => {
   viewCard.connectedCard.reverseAnimation(() => viewCard.connectedCard.remove());
 };
 
-const init = () => {
+const render = () => {
   const cardsDOM = document.querySelector('.cards');
   const cards = [1, 2, 3].reduce((acc) => {
     acc = acc.concat([
@@ -170,4 +170,4 @@ const init = () => {
   cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
 };
 
-init();
+render();
