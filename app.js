@@ -1,3 +1,6 @@
+const forEach = (array, fn) => Array.from(array).forEach(fn);
+const isFunction = (value) => typeof value === 'function';
+
 const ProfilePicture = (imageUrl) => {
   return `<div class="profile-picture" style="background-image: url(${imageUrl})"></div>`;
 };
@@ -33,9 +36,7 @@ class ViewCard {
 
   static close(viewCard, callback) {
     viewCard.remove();
-    if(typeof callback === 'function') {
-      callback(viewCard.connectedCard);
-    }
+    isFunction(callback) ? callback(viewCard.connectedCard) : null;
   }
 }
 
@@ -72,15 +73,13 @@ class Card {
   static applyParallax(element, section) {
     let {left, width} = element.getBoundingClientRect();
     let position = 100 / (document.body.clientWidth / (left + (width / 2)));
-    element.querySelector(section)
-      .style.backgroundPosition = `${position}% center`;
+    element.querySelector(section).style.backgroundPosition = `${position}% center`;
   }
 
   static clone(element, {addClass}) {
     let _elClientRect = element.getBoundingClientRect();
     let _elClone = element.cloneNode(true);
     _elClone.card = Object.assign({}, element.card);
-
     addClass ? _elClone.classList.add(addClass) : null;
     _elClone.style.top = `${_elClientRect.top}px`;
     _elClone.style.left = `${_elClientRect.left}px`;
@@ -92,25 +91,20 @@ class Card {
   static startAnimation(card, onTransitionEnd) {
     let _clone = Card.clone(card, {addClass: 'card--clone'});
     _clone.reverseAnimation = Card.reverseAnimation.bind(null, _clone);
-    if(typeof onTransitionEnd === 'function') {
-      _clone.addEventListener('transitionend', onTransitionEnd);
-    }
+    isFunction(onTransitionEnd) ?_clone.addEventListener('transitionend', onTransitionEnd) : null;
     document.body.appendChild(_clone);
     setTimeout(() => _clone.classList.add('card--animating'), 50);
   }
 
   static reverseAnimation(card, onTransitionEnd) {
     card.classList.remove('card--animating');
-    if(typeof onTransitionEnd === 'function') {
-      card.addEventListener('transitionend', onTransitionEnd);
-    }
+    isFunction(onTransitionEnd) ? card.addEventListener('transitionend', onTransitionEnd) : null;
   }
 }
 
 let cards = [1, 2, 3].reduce((acc, i) => {
   acc = acc.concat([
     Card.create({
-      id: '1'+i,
       image: './img/route-66.png',
       title: 'InVision Craft',
       subtitle: '3 PROJECTS',
@@ -118,7 +112,6 @@ let cards = [1, 2, 3].reduce((acc, i) => {
       specials: ['./img/userA.jpg', './img/userB.jpg']
     }),
     Card.create({
-      id: '2'+i,
       image: './img/seattle.png',
       title: 'Nike Running',
       subtitle: '14 PROJECTS',
@@ -126,7 +119,6 @@ let cards = [1, 2, 3].reduce((acc, i) => {
       specials: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3, 4, 5]
     }),
     Card.create({
-      id: '3'+i,
       image: './img/anduin.png',
       title: 'Relate UI Kit',
       subtitle: '7 PROJECTS',
@@ -134,7 +126,6 @@ let cards = [1, 2, 3].reduce((acc, i) => {
       specials: ['./img/userD.png', './img/userE.png', './img/userF.jpg', 4, 5, 6, 7, 8]
     }),
     Card.create({
-      id: '4'+i,
       image: './img/sunset.png',
       title: 'Serum Design',
       subtitle: '18 PROJECTS',
@@ -145,7 +136,6 @@ let cards = [1, 2, 3].reduce((acc, i) => {
   return acc;
 }, []);
 
-const forEach = (array, fn) => Array.from(array).forEach(fn);
 const bindParallax = (list) => forEach(list, card => Card.applyParallax(card, '.banner-image'));
 const cardsDOM = document.querySelector('.cards');
 

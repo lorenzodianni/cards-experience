@@ -17,7 +17,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: #FFF;
+  background-color: white;
   transform: translate(-50%, -50%); }
 
 .card.card--animating, .view-card {
@@ -38,11 +38,6 @@
     transform: translate(100%, 38%); }
   100% {
     transform: translate(-50%, 38%); } }
-@keyframes view-card__card--out {
-  0% {
-    transform: translate(-50%, 38%); }
-  100% {
-    transform: translate(100%, 38%); } }
 * {
   margin: 0;
   padding: 0;
@@ -83,7 +78,7 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-grow: 1;
-    background-color: #FFF;
+    background-color: white;
     padding: 34px 28px; }
   .card__info {
     display: flex;
@@ -104,7 +99,7 @@ body {
     height: 32px;
     border-radius: 50%;
     background-color: #e2e2e2;
-    border: 3px solid #FFF;
+    border: 3px solid white;
     overflow: hidden;
     background-position: center;
     background-repeat: no-repeat;
@@ -130,11 +125,10 @@ body {
       left: 60%;
       transform: translate(-50%, -50%);
       font-size: .6em;
-      color: #FFF; }
+      color: white; }
   .card .banner-image {
     border-radius: 10px 10px 0 0; }
 
-/*---------------------------------*/
 .banner-image {
   position: relative;
   height: 71%;
@@ -143,7 +137,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover; }
 
-/*---------------------------------*/
 .profile-picture {
   position: absolute;
   top: 50%;
@@ -151,7 +144,7 @@ body {
   width: 50px;
   height: 50px;
   border-radius: 9px;
-  background-color: #FFF;
+  background-color: white;
   background-position: right center;
   background-repeat: no-repeat;
   background-blend-mode: hard-light;
@@ -169,7 +162,7 @@ body {
   top: 28%; }
 
 .view-card {
-  background-color: #FFF;
+  background-color: white;
   overflow: hidden; }
   .view-card__presentation {
     display: flex;
@@ -179,7 +172,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #FFF;
+    color: white;
     text-align: center;
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.08), 0 0 26px rgba(0, 0, 0, 0.08);
     animation: view-card__presentation--in .3s ease 1; }
