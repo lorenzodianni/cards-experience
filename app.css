@@ -1,4 +1,4 @@
-.card.card--clone, .card.card--clone .banner-image, .card.card--animating .banner-image, .card.card--animating .profile-picture, .card.card--animating .card__info, .card.card--animating .card__specials {
+.card.card--clone, .card.card--clone .banner-image, .card.card--clone .profile-picture, .card.card--animating .card__info, .card.card--animating .card__specials {
   transition: all .4s ease; }
 
 .card.card--clone, .view-card {

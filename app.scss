@@ -215,6 +215,9 @@ body {
   .banner-image {
     @extend %animation-transition;
   }
+  .profile-picture {
+    @extend %animation-transition;
+  }
 }
 
 
@@ -227,13 +230,11 @@ body {
   @extend %coordinates--card-full-screen;
   @extend %reset--card-radius;
   .banner-image {
-    @extend %animation-transition;
     @extend %reset--card-radius;
     height: $card--expanded--banner-image--height;
     background-position: center !important;
   }
   .profile-picture {
-    @extend %animation-transition;
     top: $card--expanded--profile-picture--top;
   }
   .card__info {
