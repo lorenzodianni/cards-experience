@@ -1,3 +1,4 @@
+const app = document.querySelector('#app');
 const forEach = (array, fn) => Array.from(array).forEach(fn);
 const isFunction = (value) => typeof value === 'function';
 const bindParallax = (list) => forEach(list, card => Card.applyParallax(card, '.banner-image'));
@@ -76,7 +77,7 @@ class Card {
 
   static applyParallax(element, section) {
     let {left, width} = element.getBoundingClientRect();
-    let position = 100 / (document.body.clientWidth / (left + (width / 2)));
+    let position = (100 / (document.body.clientWidth / (left + (width / 2))));
     element.querySelector(section).style.backgroundPosition = `${position}% center`;
   }
 
@@ -85,8 +86,8 @@ class Card {
     let _elClone = element.cloneNode(true);
     _elClone.card = Object.assign({}, element.card);
     addClass ? _elClone.classList.add(addClass) : null;
-    _elClone.style.top = `${_elClientRect.top}px`;
-    _elClone.style.left = `${_elClientRect.left}px`;
+    _elClone.style.top = `${_elClientRect.top - app.offsetTop}px`;
+    _elClone.style.left = `${_elClientRect.left - app.offsetLeft}px`;
     _elClone.style.height = `${_elClientRect.height}px`;
     _elClone.style.width = `${_elClientRect.width}px`;
     return _elClone;
@@ -96,7 +97,7 @@ class Card {
     let _clone = Card.clone(card, {addClass: 'card--clone'});
     _clone.reverseAnimation = Card.reverseAnimation.bind(null, _clone);
     isFunction(onTransitionEnd) ? _clone.addEventListener('transitionend', onTransitionEnd) : null;
-    document.body.appendChild(_clone);
+    app.appendChild(_clone);
     setTimeout(() => _clone.classList.add('card--animating'), 50);
   }
 
@@ -107,9 +108,10 @@ class Card {
 }
 
 const onCardTransitionEnd = (counter) => (e) => {
-  if (counter) return;
-  ++counter;
-  renderViewCard(e.target);
+  if(!counter && e.target.className.includes('card--clone')) {
+    ++counter;
+    renderViewCard(e.target);
+  }
 };
 
 const onCardViewAnimationOutEnd = (counter) => (viewCard) => {
@@ -121,7 +123,7 @@ const onCardViewAnimationOutEnd = (counter) => (viewCard) => {
 const renderViewCard = (connectedCard) => {
   let options = Object.assign({connectedCard}, connectedCard.card);
   let viewCard = ViewCard.create(options);
-  document.body.appendChild(viewCard);
+  app.appendChild(viewCard);
   document.querySelector('.view-card__close')
     .addEventListener('click', () => ViewCard.close(viewCard, onCardViewAnimationOutEnd(0)));
 };
@@ -133,7 +135,7 @@ const removeViewCard = (viewCard) => {
 };
 
 const render = () => {
-  const cardsDOM = document.querySelector('.cards');
+  const cardsDOM = document.createElement('div');
   const cards = [1, 2, 3].reduce((acc) => {
     acc = acc.concat([
       Card.create({
@@ -167,12 +169,17 @@ const render = () => {
     ]);
     return acc;
   }, []);
+
+  cardsDOM.classList.add('cards');
+  cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
+
   forEach(cards, (card) => {
     cardsDOM.appendChild(card);
     card.addEventListener('click', () => Card.startAnimation(card, onCardTransitionEnd(0)));
   });
+
+  app.appendChild(cardsDOM);
   document.addEventListener('DOMContentLoaded', () => bindParallax(cardsDOM.children));
-  cardsDOM.addEventListener('scroll', () => bindParallax(cardsDOM.children));
 };
 
 render();
