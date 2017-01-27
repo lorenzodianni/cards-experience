@@ -33,6 +33,7 @@
   100% {
     transform: translate(-50%, -50%);
     opacity: 1; } }
+
 @keyframes view-card__presentation--out {
   0% {
     transform: translate(-50%, -50%);
@@ -40,16 +41,19 @@
   100% {
     transform: translate(-50%, 0);
     opacity: 0; } }
+
 @keyframes view-card__close--in {
   0% {
     transform: translate(0, -100%); }
   100% {
     transform: translate(0, 0%); } }
+
 @keyframes view-card__close--out {
   0% {
     transform: translate(0, 0%); }
   100% {
     transform: translate(0, -100%); } }
+
 @keyframes view-card__card--in {
   0% {
     transform: translate(100%, 38%); }
@@ -57,6 +61,7 @@
     opacity: 1; }
   100% {
     transform: translate(-50%, 38%); } }
+
 @keyframes view-card__card--out {
   0% {
     transform: translate(-50%, 38%); }
@@ -65,6 +70,7 @@
   100% {
     transform: translate(100%, 38%);
     opacity: 0; } }
+
 * {
   margin: 0;
   padding: 0;
@@ -203,6 +209,7 @@ body {
 .card.card--animating .banner-image {
   height: 48%;
   background-position: center !important; }
+
 .card.card--animating .profile-picture {
   top: 28%; }
 
@@ -263,9 +270,9 @@ body {
 
 .view-card--out .view-card__close {
   animation: view-card__close--out 0.3s ease 1; }
+
 .view-card--out .view-card__presentation {
   animation: view-card__presentation--out 0.3s ease 1; }
+
 .view-card--out .card {
   animation: view-card__card--out 0.3s ease 1; }
-
-/*# sourceMappingURL=app.css.map */

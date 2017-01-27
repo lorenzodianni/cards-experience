@@ -1,0 +1,32 @@
+{
+  "name": "cards",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "live-server | npm run scss:w | npm run js:w",
+    "server": "live-server",
+    "scss": "node-sass ./main.scss -o ./",
+    "scss:w": "nodemon -e scss -x \"npm run scss\"",
+    "js": "babel app.js -o app.es5.js --presets es2015",
+    "js:w": "npm run js -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lorenzodianni/cards.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lorenzodianni/cards/issues"
+  },
+  "homepage": "https://github.com/lorenzodianni/cards#readme",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0",
+    "live-server": "^1.2.0",
+    "node-sass": "^4.3.0",
+    "nodemon": "^1.11.0"
+  }
+}
