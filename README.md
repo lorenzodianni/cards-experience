@@ -1,4 +1,4 @@
-# cards experience
+# Cards experience
 Personal experiment for cards transitions.
 ```sh
 $ npm install && npm start
