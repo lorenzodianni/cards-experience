@@ -49,7 +49,7 @@ var ViewCard = function () {
     value: function create(options) {
       var wrapper = document.createElement('div');
       wrapper.innerHTML = '\n    <div class="view-card">\n      ' + BannerImage(options.image, {
-        child: '\n          ' + ProfilePicture(options.logo) + '\n          <div class="view-card__close"></div>\n          <div class="view-card__presentation">\n          <div class="view-card__title">' + options.title + '</div>\n          <div class="view-card__subtitle">' + options.subtitle + '</div>\n          </div>\n        '
+        child: '\n          ' + ProfilePicture(options.logo) + '\n          <div class="view-card__close"></div>\n          <div class="view-card__presentation">\n            <div class="view-card__title">' + options.title + '</div>\n            <div class="view-card__subtitle">' + options.subtitle + '</div>\n          </div>\n          '
       }) + '\n      <div class="view-card__body">\n        ' + Card.create({
         image: options.image,
         title: 'Project X',

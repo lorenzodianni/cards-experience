@@ -20,15 +20,15 @@ class ViewCard {
     wrapper.innerHTML = `
     <div class="view-card">
       ${BannerImage(options.image, {
-      child: `
+        child: `
           ${ProfilePicture(options.logo)}
           <div class="view-card__close"></div>
           <div class="view-card__presentation">
-          <div class="view-card__title">${options.title}</div>
-          <div class="view-card__subtitle">${options.subtitle}</div>
+            <div class="view-card__title">${options.title}</div>
+            <div class="view-card__subtitle">${options.subtitle}</div>
           </div>
-        `
-    })}
+          `
+      })}
       <div class="view-card__body">
         ${Card.create({
           image: options.image,
@@ -55,8 +55,8 @@ class Card {
     wrapper.innerHTML = `
     <div class="card">
       ${BannerImage(options.image, {
-      child: options.logo ? ProfilePicture(options.logo) : ''
-    })}
+        child: options.logo ? ProfilePicture(options.logo) : ''
+      })}
       <div class="card__body">
         <div class="card__info">
           <span class="card__info-title">${options.title}</span>
