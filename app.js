@@ -88,11 +88,12 @@ class Card {
   }
 
   static clone(element, {addClass}) {
+    let {scrollTop} = document.body;
     let _elClientRect = element.getBoundingClientRect();
     let _elClone = element.cloneNode(true);
     _elClone.card = Object.assign({}, element.card);
     addClass ? _elClone.classList.add(addClass) : null;
-    _elClone.style.top = `${_elClientRect.top - app.offsetTop}px`;
+    _elClone.style.top = `${_elClientRect.top + scrollTop - app.offsetTop}px`;
     _elClone.style.left = `${_elClientRect.left - app.offsetLeft}px`;
     _elClone.style.height = `${_elClientRect.height}px`;
     _elClone.style.width = `${_elClientRect.width}px`;

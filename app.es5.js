@@ -105,12 +105,13 @@ var Card = function () {
     key: 'clone',
     value: function clone(element, _ref2) {
       var addClass = _ref2.addClass;
+      var scrollTop = document.body.scrollTop;
 
       var _elClientRect = element.getBoundingClientRect();
       var _elClone = element.cloneNode(true);
       _elClone.card = Object.assign({}, element.card);
       addClass ? _elClone.classList.add(addClass) : null;
-      _elClone.style.top = _elClientRect.top - app.offsetTop + 'px';
+      _elClone.style.top = _elClientRect.top + scrollTop - app.offsetTop + 'px';
       _elClone.style.left = _elClientRect.left - app.offsetLeft + 'px';
       _elClone.style.height = _elClientRect.height + 'px';
       _elClone.style.width = _elClientRect.width + 'px';
