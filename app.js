@@ -1,7 +1,10 @@
 const app = document.querySelector('#app');
 const forEach = (array, fn) => Array.from(array).forEach(fn);
 const isFunction = (value) => typeof value === 'function';
-const bindParallax = (list) => forEach(list, card => Card.applyParallax(card, '.banner-image'));
+const bindParallax = (list) => forEach(list, card => card.card ? Card.applyParallax(card, '.banner-image') : null);
+const random = (min = 3, max = 20) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randomAvatar = () => `https://api.adorable.io/avatars/${random(1, 1000)}`;
+const arrayFromInt = (n) => Array.from(Array(n), (u, i) => i);
 
 const ProfilePicture = (imageUrl) => (
   `<div class="profile-picture" style="background-image: url(${imageUrl})"></div>`
@@ -28,10 +31,10 @@ class ViewCard {
     })}
       <div class="view-card__body">
         ${Card.create({
-      image: options.image,
-      title: 'Project X',
-      subtitle: '32 screens'
-    }).outerHTML}
+          image: options.image,
+          title: 'Project X',
+          subtitle: '32 screens'
+        }).outerHTML}
       </div>
     </div>
     `;
@@ -61,11 +64,11 @@ class Card {
         </div>
         <div class="card__specials">
           ${options.specials ? options.specials.map((specialImg, i) => {
-        if (i <= 2) {
-          let attr = i === 2 ? `more-specials="+${options.specials.length - (i + 1)}"` : '';
-          return `<div class="card__special" style="background-image: url(${specialImg})" ${attr}></div>`;
-        }
-      }).join('') : ''}
+            if (i <= 2) {
+              let attr = i === 2 ? `more-specials="+${options.specials.length - (i + 1)}"` : '';
+              return `<div class="card__special" style="background-image: url(${specialImg})" ${attr}></div>`;
+            }
+          }).join('') : ''}
         </div>
       </div>
     </div>
@@ -76,8 +79,11 @@ class Card {
   }
 
   static applyParallax(element, section) {
-    let {left, width} = element.getBoundingClientRect();
-    let position = (100 / (document.body.clientWidth / (left + (width / 2))));
+    // let {left, width} = element.getBoundingClientRect();
+    // let position = (100 / (document.body.clientWidth / (left + (width / 2))));
+    let leftPosition = element.parentElement.scrollLeft - element.offsetLeft;
+    let marginSize = (app.clientWidth - element.clientWidth) * 1.5;
+    let position = 50 / (app.clientWidth / (leftPosition + marginSize + element.clientWidth));
     element.querySelector(section).style.backgroundPosition = `${position}% center`;
   }
 
@@ -136,39 +142,35 @@ const removeViewCard = (viewCard) => {
 
 const render = () => {
   const cardsDOM = document.createElement('div');
-  const cards = [1, 2, 3].reduce((acc, i) => {
+  const cards = [1].reduce((acc) => {
     acc = acc.concat([
       Card.create({
-        id: '0' + i,
-        image: './img/route-66.png',
+        image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
         title: 'InVision Craft',
-        subtitle: '3 PROJECTS',
-        logo: './img/route-66.png',
-        specials: ['./img/userA.jpg', './img/userB.jpg']
+        subtitle: `${random()} PROJECTS`,
+        logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
+        specials: arrayFromInt(random()).map(randomAvatar)
       }),
       Card.create({
-        id: '1' + i,
-        image: './img/seattle.png',
+        image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
         title: 'Nike Running',
-        subtitle: '14 PROJECTS',
-        logo: './img/seattle.png',
-        specials: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3, 4, 5]
+        subtitle: `${random()} PROJECTS`,
+        logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
+        specials: arrayFromInt(random()).map(randomAvatar)
       }),
       Card.create({
-        id: '2' + i,
-        image: './img/anduin.png',
+        image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
         title: 'Relate UI Kit',
-        subtitle: '7 PROJECTS',
-        logo: './img/anduin.png',
-        specials: ['./img/userD.png', './img/userE.png', './img/userF.jpg', 4, 5, 6, 7, 8]
+        subtitle: `${random()} PROJECTS`,
+        logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
+        specials: arrayFromInt(random()).map(randomAvatar)
       }),
       Card.create({
-        id: '3' + i,
-        image: './img/sunset.png',
+        image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
         title: 'Serum Design',
-        subtitle: '18 PROJECTS',
-        logo: './img/sunset.png',
-        specials: ['./img/userC.png', './img/userD.png', './img/userE.png', 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        subtitle: `${random()} PROJECTS`,
+        logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
+        specials: arrayFromInt(random()).map(randomAvatar)
       })
     ]);
     return acc;
@@ -182,6 +184,7 @@ const render = () => {
     card.addEventListener('click', () => Card.startAnimation(card, onCardTransitionEnd(0)));
   });
 
+  cardsDOM.insertAdjacentHTML('beforeEnd', '<div class="card--ghost"></div>');
   app.appendChild(cardsDOM);
   document.addEventListener('DOMContentLoaded', () => bindParallax(cardsDOM.children));
 };

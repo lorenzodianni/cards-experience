@@ -13,7 +13,20 @@ var isFunction = function isFunction(value) {
 };
 var bindParallax = function bindParallax(list) {
   return forEach(list, function (card) {
-    return Card.applyParallax(card, '.banner-image');
+    return card.card ? Card.applyParallax(card, '.banner-image') : null;
+  });
+};
+var random = function random() {
+  var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
+  var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 20;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+var randomAvatar = function randomAvatar() {
+  return 'https://api.adorable.io/avatars/' + random(1, 1000);
+};
+var arrayFromInt = function arrayFromInt(n) {
+  return Array.from(Array(n), function (u, i) {
+    return i;
   });
 };
 
@@ -81,11 +94,11 @@ var Card = function () {
   }, {
     key: 'applyParallax',
     value: function applyParallax(element, section) {
-      var _element$getBoundingC = element.getBoundingClientRect(),
-          left = _element$getBoundingC.left,
-          width = _element$getBoundingC.width;
-
-      var position = 100 / (document.body.clientWidth / (left + width / 2));
+      // let {left, width} = element.getBoundingClientRect();
+      // let position = (100 / (document.body.clientWidth / (left + (width / 2))));
+      var leftPosition = element.parentElement.scrollLeft - element.offsetLeft;
+      var marginSize = (app.clientWidth - element.clientWidth) * 1.5;
+      var position = 50 / (app.clientWidth / (leftPosition + marginSize + element.clientWidth));
       element.querySelector(section).style.backgroundPosition = position + '% center';
     }
   }, {
@@ -162,35 +175,31 @@ var removeViewCard = function removeViewCard(viewCard) {
 
 var render = function render() {
   var cardsDOM = document.createElement('div');
-  var cards = [1, 2, 3].reduce(function (acc, i) {
+  var cards = [1].reduce(function (acc) {
     acc = acc.concat([Card.create({
-      id: '0' + i,
-      image: './img/route-66.png',
+      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
       title: 'InVision Craft',
-      subtitle: '3 PROJECTS',
-      logo: './img/route-66.png',
-      specials: ['./img/userA.jpg', './img/userB.jpg']
+      subtitle: random() + ' PROJECTS',
+      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
+      specials: arrayFromInt(random()).map(randomAvatar)
     }), Card.create({
-      id: '1' + i,
-      image: './img/seattle.png',
+      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
       title: 'Nike Running',
-      subtitle: '14 PROJECTS',
-      logo: './img/seattle.png',
-      specials: ['./img/userA.jpg', './img/userB.jpg', './img/userC.png', 3, 4, 5]
+      subtitle: random() + ' PROJECTS',
+      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
+      specials: arrayFromInt(random()).map(randomAvatar)
     }), Card.create({
-      id: '2' + i,
-      image: './img/anduin.png',
+      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
       title: 'Relate UI Kit',
-      subtitle: '7 PROJECTS',
-      logo: './img/anduin.png',
-      specials: ['./img/userD.png', './img/userE.png', './img/userF.jpg', 4, 5, 6, 7, 8]
+      subtitle: random() + ' PROJECTS',
+      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
+      specials: arrayFromInt(random()).map(randomAvatar)
     }), Card.create({
-      id: '3' + i,
-      image: './img/sunset.png',
+      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
       title: 'Serum Design',
-      subtitle: '18 PROJECTS',
-      logo: './img/sunset.png',
-      specials: ['./img/userC.png', './img/userD.png', './img/userE.png', 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      subtitle: random() + ' PROJECTS',
+      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
+      specials: arrayFromInt(random()).map(randomAvatar)
     })]);
     return acc;
   }, []);
@@ -207,6 +216,7 @@ var render = function render() {
     });
   });
 
+  cardsDOM.insertAdjacentHTML('beforeEnd', '<div class="card--ghost"></div>');
   app.appendChild(cardsDOM);
   document.addEventListener('DOMContentLoaded', function () {
     return bindParallax(cardsDOM.children);
