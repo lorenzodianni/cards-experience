@@ -175,34 +175,31 @@ var removeViewCard = function removeViewCard(viewCard) {
 
 var render = function render() {
   var cardsDOM = document.createElement('div');
-  var cards = [1].reduce(function (acc) {
-    acc = acc.concat([Card.create({
-      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
-      title: 'InVision Craft',
-      subtitle: random() + ' PROJECTS',
-      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
-      specials: arrayFromInt(random()).map(randomAvatar)
-    }), Card.create({
-      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
-      title: 'Nike Running',
-      subtitle: random() + ' PROJECTS',
-      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
-      specials: arrayFromInt(random()).map(randomAvatar)
-    }), Card.create({
-      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
-      title: 'Relate UI Kit',
-      subtitle: random() + ' PROJECTS',
-      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
-      specials: arrayFromInt(random()).map(randomAvatar)
-    }), Card.create({
-      image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
-      title: 'Serum Design',
-      subtitle: random() + ' PROJECTS',
-      logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
-      specials: arrayFromInt(random()).map(randomAvatar)
-    })]);
-    return acc;
-  }, []);
+  var cards = [Card.create({
+    image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
+    title: 'InVision Craft',
+    subtitle: random() + ' PROJECTS',
+    logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2059749/route-66.png',
+    specials: arrayFromInt(random()).map(randomAvatar)
+  }), Card.create({
+    image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
+    title: 'Nike Running',
+    subtitle: random() + ' PROJECTS',
+    logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2053253/seattle.png',
+    specials: arrayFromInt(random()).map(randomAvatar)
+  }), Card.create({
+    image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
+    title: 'Relate UI Kit',
+    subtitle: random() + ' PROJECTS',
+    logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2236968/anduin.png',
+    specials: arrayFromInt(random()).map(randomAvatar)
+  }), Card.create({
+    image: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
+    title: 'Serum Design',
+    subtitle: random() + ' PROJECTS',
+    logo: 'https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2109505/sunset.png',
+    specials: arrayFromInt(random()).map(randomAvatar)
+  })];
 
   cardsDOM.classList.add('cards');
   cardsDOM.addEventListener('scroll', function () {
